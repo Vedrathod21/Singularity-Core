@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Cloud Dynasty — Phase-5 Singularity Core 🌌⚛︎</title>
+<style>
+  /* --------------------------------------------------
+     CLOUD DYNASTY: SINGULARITY AESTHETICS (CSS)
+     -------------------------------------------------- */
+  :root {
+    --neon-blue: #00f3ff;
+    --neon-purple: #bc13fe;
+    --void-black: #050505;
+    --glass-bg: rgba(20, 20, 30, 0.6);
+    --border-glow: rgba(0, 243, 255, 0.3);
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    background: #000;
+    background-image: 
+        radial-gradient(circle at 50% 50%, #1a0b2e 0%, #000 100%),
+        linear-gradient(0deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(188, 19, 254, 0.03) 1px, transparent 1px);
+    background-size: 100% 100%, 40px 40px, 40px 40px;
+    font-family: 'Courier New', Courier, monospace; /* Tech/Code Vibe */
+    color: #e0e0e0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+  }
+
+  .system-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px;
+    padding: 2px; /* For border gradient */
+    background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+    border-radius: 16px;
+    box-shadow: 0 0 50px rgba(188, 19, 254, 0.2);
+    animation: borderPulse 4s infinite alternate;
+  }
+
+  .interface {
+    background: var(--void-black);
+    border-radius: 14px;
+    padding: 40px 25px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Scanline Effect */
+  .interface::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+  }
+
+  h1 {
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    font-weight: 900;
+    font-size: 2rem;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    background: linear-gradient(90deg, #fff, var(--neon-blue));
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 5px;
+    text-shadow: 0 0 20px var(--neon-blue);
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--neon-purple);
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    opacity: 0.8;
+  }
+
+  .input-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    position: relative;
+    z-index: 5;
+  }
+
+  input {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #333;
+    color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 1rem;
+    outline: none;
+    text-align: center;
+    transition: 0.3s;
+  }
+
+  input:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 243, 255, 0.2);
+    background: rgba(0, 243, 255, 0.05);
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 16px;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+    border: none;
+    border-radius: 50px;
+    color: #000;
+    font-weight: 800;
+    font-size: 1.1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    transition: 0.4s;
+    position: relative;
+    z-index: 5;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.4);
+  }
+
+  button:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 40px rgba(0, 243, 255, 0.6);
+  }
+
+  /* OUTPUT HUD STYLES */
+  #output {
+    display: none;
+    margin-top: 40px;
+    position: relative;
+    z-index: 5;
+    animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  .hud-panel {
+    border: 1px solid var(--border-glow);
+    background: rgba(0, 20, 40, 0.6);
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .hud-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 4px; height: 100%;
+    background: var(--neon-purple);
+    border-radius: 4px 0 0 4px;
+  }
+
+  .hud-title {
+    color: var(--neon-blue);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
+    display: block;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+  }
+
+  .hud-value {
+    font-size: 1.1rem;
+    color: #fff;
+    line-height: 1.6;
+    text-shadow: 0 0 5px rgba(255,255,255,0.3);
+  }
+
+  .master-number {
+    color: #ff0055;
+    font-weight: bold;
+    text-shadow: 0 0 10px #ff0055;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+  
+  @keyframes borderPulse {
+    0% { box-shadow: 0 0 20px rgba(188, 19, 254, 0.2); }
+    100% { box-shadow: 0 0 40px rgba(0, 243, 255, 0.4); }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Frequency Visualizer Bar */
+  .freq-bar {
+    height: 4px;
+    background: #333;
+    margin-top: 10px;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .freq-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--neon-purple), var(--neon-blue));
+    width: 0%;
+    transition: width 1.5s ease-out;
+  }
+
+  .blink { animation: blinker 1.5s linear infinite; color: var(--neon-blue); }
+  @keyframes blinker { 50% { opacity: 0; } }
+</style>
+</head>
+<body>
+
+<div class="system-container">
+  <div class="interface">
+    <h1>Singularity Core</h1>
+    <div class="subtitle">Phase-5 Quantum Protocol <span class="blink">●</span> Online</div>
+
+    <div class="input-grid">
+      <input id="name" type="text" placeholder="SUBJECT NAME [Access Key]" autocomplete="off" />
+      <input id="dob" type="text" placeholder="ORIGIN DATE [DD-MM-YYYY]" autocomplete="off" />
+      <input id="time" type="text" placeholder="TEMPORAL MARKER [HH:MM]" autocomplete="off" />
+    </div>
+
+    <button onclick="initiateSingularity()">Initialize Sequence ⚡</button>
+
+    <div id="output">
+      </div>
+  </div>
+</div>
+
+<script>
+// ======================================================
+// 🌌 CLOUD DYNASTY: ADVANCED RESEARCH ENGINE (LOGIC)
+// ======================================================
+
+/**
+ * Advanced Hashing: Converts string inputs into a deterministic numerical seed.
+ * Uses a bitwise shift for higher entropy.
+ */
+function quantumHash(str) {
+  let hash = 0;
+  if (str.length === 0) return hash;
+  const cleanStr = str.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  for (let i = 0; i < cleanStr.length; i++) {
+    const char = cleanStr.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+}
+
+/**
+ * Master Number Reducer:
+ * Unlike basic engines, this preserves 11, 22, and 33.
+ */
+function reduceWithMaster(num) {
+  if (num === 11 || num === 22 || num === 33) return num;
+  
+  let sum = num;
+  while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
+    let tempSum = 0;
+    String(sum).split('').forEach(d => tempSum += parseInt(d));
+    sum = tempSum;
+  }
+  return sum;
+}
+
+/**
+ * Elemental Matrix: Maps vibrations to cosmic elements.
+ */
+const elementMap = {
+  1: "Plasma (Fire) 🔥", 2: "Deep Water (Flow) 💧", 3: "Aether (Space) 🌌",
+  4: "Terra (Earth) 🌍", 5: "Solar Wind (Air) 🌪️", 6: "Magnetic Core 🧲",
+  7: "Quantum Void 👁️", 8: "Dark Matter 🌑", 9: "Starlight ✨",
+  11: "⚡ NEON LIGHTNING (Master Illuminator)",
+  22: "🏗️ COSMIC STRUCTURE (Master Builder)",
+  33: "💠 UNIVERSAL FLUX (Master Teacher)"
+};
+
+/**
+ * Main Processing Function
+ */
+function initiateSingularity() {
+  const name = document.getElementById("name").value;
+  const dob = document.getElementById("dob").value;
+  const time = document.getElementById("time").value;
+
+  if(!name || !dob || !time) {
+    alert("⚠️ SYSTEM ALERT: INSUFFICIENT DATA. FILL ALL FIELDS.");
+    return;
+  }
+
+  // 1. DATA INGESTION & HASHING
+  const hName = quantumHash(name);
+  const hDob = quantumHash(dob);
+  const hTime = quantumHash(time);
+
+  // 2. VIBRATION CALCULATION (Using Master Number Logic)
+  // We use modulo logic to simulate reduction from the massive hash, then reduce properly
+  const vName = reduceWithMaster(reduceToSum(hName));
+  const vBirth = reduceWithMaster(reduceToSum(hDob));
+  const vTime = reduceWithMaster(reduceToSum(hTime));
+
+  // 3. THE SINGULARITY CODE (Fusion of all 3)
+  const singularityRaw = hName + hDob + hTime;
+  const singularityCode = reduceWithMaster(reduceToSum(singularityRaw));
+
+  // 4. ADVANCED IMPLEMENTS
+  
+  // A. Resonance Frequency (Hz) - Synthetic calculation based on name hash
+  const frequency = (hName % 800) + 111; // Generates a Hz between 111 and 911
+  
+  // B. Entropy State (Order vs Chaos)
+  const entropyVal = (hDob % 100); 
+  const entropyState = entropyVal > 50 ? "High Entropy (Creative Chaos)" : "Low Entropy (Structured Order)";
+
+  // C. Galactic Archetype (Research Based)
+  const archetypes = [
+    "The Void Walker", "The Chronos Keeper", "The Binary Seer", 
+    "The System Architect", "The Nexus Point", "The Gravity Binder", 
+    "The Photon Weaver", "The Infinite Looper", "The Omega Sentinel"
+  ];
+  // Indexing logic: (singularityCode reduced to 1-9 for array index)
+  let archIndex = singularityCode;
+  if (archIndex > 9) archIndex = (archIndex % 9) || 9; 
+  const myArchetype = archetypes[archIndex - 1];
+
+  // 5. RENDER OUTPUT
+  const outputDiv = document.getElementById("output");
+  
+  // Formatting Master Numbers for display
+  const fmt = (n) => (n === 11 || n === 22 || n === 33) ? `<span class='master-number'>${n} (MASTER)</span>` : n;
+
+  outputDiv.innerHTML = `
+    <div class="grid-2">
+      <div class="hud-panel">
+        <span class="hud-title">Identity Vector (Name)</span>
+        <div class="hud-value">${fmt(vName)}</div>
+        <div style="font-size:0.8rem; color:#aaa; margin-top:5px;">${elementMap[vName]}</div>
+      </div>
+      <div class="hud-panel">
+        <span class="hud-title">Origin Matrix (Birth)</span>
+        <div class="hud-value">${fmt(vBirth)}</div>
+        <div style="font-size:0.8rem; color:#aaa; margin-top:5px;">${elementMap[vBirth]}</div>
+      </div>
+    </div>
+
+    <div class="hud-panel" style="border-left: 4px solid #fff;">
+      <span class="hud-title">/// SINGULARITY CORE ID ///</span>
+      <div class="hud-value" style="font-size: 2rem; font-weight:900; letter-spacing:3px;">
+        ${fmt(singularityCode)}
+      </div>
+      <div class="hud-value" style="color:var(--neon-blue); margin-top:5px;">
+        Archetype: [ ${myArchetype} ]
+      </div>
+    </div>
+
+    <div class="hud-panel">
+      <span class="hud-title">Advanced Telemetry</span>
+      <div class="hud-value">Frequency: <strong>${frequency} Hz</strong></div>
+      <div class="freq-bar"><div class="freq-fill" style="width: ${Math.min(frequency/10, 100)}%"></div></div>
+      <div class="hud-value" style="margin-top:10px;">Entropy State: ${entropyState}</div>
+      <div class="hud-value">Temporal Alignment: ${fmt(vTime)}</div>
+    </div>
+
+    <div class="hud-panel">
+      <span class="hud-title">Cloud Dynasty Protocol</span>
+      <div class="hud-value" style="font-size:0.9rem;">
+        Subject's resonance indicates a potential for 
+        <span style="color:var(--neon-purple)">${getTrait(singularityCode)}</span>. 
+        The connection between ${fmt(vName)} and ${fmt(vBirth)} creates a unique quantum signature.
+      </div>
+    </div>
+  `;
+  
+  outputDiv.style.display = "block";
+}
+
+// Helper to sum digits until 2 digits (for master check) or 1 digit
+function reduceToSum(num) {
+  let str = String(num);
+  let sum = 0;
+  for(let char of str) sum += parseInt(char);
+  return sum;
+}
+
+// Dynamic Trait Generator
+function getTrait(code) {
+  const traits = {
+    1: "absolute leadership and system initiation",
+    2: "diplomatic connectivity and flow state",
+    3: "visual innovation and creative expansion",
+    4: "architectural stability and logic defense",
+    5: "rapid adaptation and data velocity",
+    6: "community harmony and protection protocols",
+    7: "deep analysis and hidden truth decoding",
+    8: "resource command and infinite scaling",
+    9: "universal completion and humanitarian upload",
+    11: "hyper-intuition and visionary enlightenment",
+    22: "master building on a galactic scale",
+    33: "cosmic healing and pure energy guidance"
+  };
+  // Normalize huge numbers just in case, though logic prevents it
+  if (code > 33 && code !== 11 && code !== 22 && code !== 33) {
+      let temp = code; 
+      while(temp > 9) {
+          temp = String(temp).split('').reduce((a,b)=>parseInt(a)+parseInt(b),0);
+      }
+      return traits[temp];
+  }
+  return traits[code] || "Uncharted Resonance";
+}
+</script>
+
+</body>
+</html>
